@@ -1,0 +1,45 @@
+syntax = "proto3";
+
+package io.reverie.fruitapi;
+
+import "google/protobuf/empty.proto";
+
+message Fruit {
+  oneof fruit {
+    Banana banana = 1;
+    Apple apple = 2;
+    Orange orange = 3;
+  }
+
+  message Banana {
+    double lengthCentimeters = 1;
+  }
+
+  message Apple {
+    enum Color {
+      UNSET = 0;
+      RED = 1;
+      GREEN = 2;
+      YELLOW = 3;
+    }
+
+    Color color = 1;
+  }
+
+  message Orange {
+    double radiusCentimeters = 1;
+  }
+}
+
+message GetFruitRequest {
+  bool succeed = 1;
+}
+
+message GetFruitResponse {
+  Fruit fruit = 1;
+}
+
+service FruitAPI {
+  rpc HealthCheck(google.protobuf.Empty) returns (google.protobuf.Empty);
+  rpc GetFruits(GetFruitRequest) returns (stream GetFruitResponse);
+}

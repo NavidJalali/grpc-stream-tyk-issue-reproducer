@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: fruit-api
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: fruit-api
+  template:
+    metadata:
+      labels:
+        app: fruit-api
+    spec:
+      containers:
+        - name: fruit-api-container
+          image: redacted.dkr.ecr.eu-central-1.amazonaws.com/navid-grpc-stream-reproducer:latest
+          ports:
+            - containerPort: 50051
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: fruit-api
+spec:
+  selector:
+    app: fruit-api
+  ports:
+    - protocol: TCP
+      port: 50051
+      targetPort: 50051
+  type: ClusterIP
