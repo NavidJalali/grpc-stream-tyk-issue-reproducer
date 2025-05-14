@@ -53,12 +53,11 @@ final class FruitAPIImpl extends FruitAPIPowerApi {
     )
 
   override def getFruits(in: GetFruitRequest, metadata: Metadata): Source[GetFruitResponse, NotUsed] =
-    val emit = 1
     if in.succeed then
-      Source.repeat(()).map(_ => response).take(emit)
+      Source.repeat(()).map(_ => response).take(in.emit)
     else
       Source
-        .unfoldAsync(emit) {
+        .unfoldAsync(in.emit) {
           case 0 => Future.failed(error)
           case state => Future.successful(Some((state - 1, response)))
         }

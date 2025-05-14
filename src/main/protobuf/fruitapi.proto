@@ -32,7 +32,8 @@ message Fruit {
 }
 
 message GetFruitRequest {
-  bool succeed = 1;
+  uint32 emit = 1;
+  bool succeed = 2;
 }
 
 message GetFruitResponse {
